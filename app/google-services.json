@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "595540892533",
+    "firebase_url": "https://findyourfriends-4a770.firebaseio.com",
+    "project_id": "findyourfriends-4a770",
+    "storage_bucket": "findyourfriends-4a770.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:595540892533:android:a2ac282ceb4b6d10",
+        "android_client_info": {
+          "package_name": "com.example.mathias.findyourfriends"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "595540892533-c4lf7o62v7e7359qbsqk612r8ljclcel.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBettGSfZKjQDDGpEQwwHRnlPN-HEJIeo0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
