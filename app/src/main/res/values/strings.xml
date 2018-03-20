@@ -10,4 +10,8 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hello_map_fragment">This is the map fragment</string>
+    <string name="hello_show_group_fragment">This is where the groups will be shown</string>
+    <string name="hello_create_group_fragment">This is where a group can be created</string>
+    <string name="title_activity_maps">Map</string>
 </resources>

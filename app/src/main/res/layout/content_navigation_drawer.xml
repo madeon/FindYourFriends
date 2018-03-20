@@ -5,8 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.example.mathias.findyourfriends.NavigationDrawer"
+    tools:context="com.example.mathias.findyourfriends.Activities.NavigationDrawerActivity"
     tools:showIn="@layout/app_bar_navigation_drawer">
+
+	<FrameLayout
+		android:id="@+id/content_frame"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent" />
 		</android.support.constraint.ConstraintLayout>
 
 

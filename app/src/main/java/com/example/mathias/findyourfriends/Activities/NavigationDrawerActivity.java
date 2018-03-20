@@ -1,10 +1,12 @@
-package com.example.mathias.findyourfriends;
+package com.example.mathias.findyourfriends.Activities;
 
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -15,7 +17,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class NavigationDrawer extends AppCompatActivity
+import com.example.mathias.findyourfriends.Fragments.CreateGroupFragment;
+import com.example.mathias.findyourfriends.Fragments.MapFragment;
+import com.example.mathias.findyourfriends.Fragments.ShowGroupFragment;
+import com.example.mathias.findyourfriends.R;
+
+public class NavigationDrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     @Override
@@ -25,14 +32,7 @@ public class NavigationDrawer extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -81,28 +81,33 @@ public class NavigationDrawer extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        displayFragment(id);
 
-        if (id == R.id.nav_create_group) {
+        return true;
+    }
 
-        setTitle("Create Group");
-        CreateGroupFragment frag1 = new CreateGroupFragment();
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        //fragmentManager.beginTransaction().replace(, frag1);
+    private void displayFragment(int id) {
+        Fragment fragment = null;
 
+        switch (id) {
+            case R.id.nav_create_group:
+                fragment = new CreateGroupFragment();
+                break;
+            case R.id.nav_show_groups:
+                fragment = new ShowGroupFragment();
+                break;
+            case R.id.nav_show_map:
+                fragment = new MapFragment();
+                break;
+        }
 
-        } else if (id == R.id.nav_show_groups) {
-            setTitle("Groups");
-
-        } else if (id == R.id.nav_show_map) {
-            setTitle("Map");
-
-        } else if (id == R.id.nav_show_settings) {
-            setTitle("Settings");
-
+        if (fragment != null) {
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.content_frame, fragment);
+            ft.commit();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
-        return true;
     }
 }
