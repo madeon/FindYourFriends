@@ -29,7 +29,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
     private GoogleMap map;
 
 
-
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -51,11 +50,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
-        // Add a marker in Sydney and move the camera
+        // Add a marker in odense and move the camera
         map = googleMap;
-        LatLng sydney = new LatLng(55.380936, 10.345291);
-        map.addMarker(new MarkerOptions().position(sydney).title("Marker in Odense"));
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 16));
+
+        LatLng odense = new LatLng(55.380936, 10.345291);
+        map.addMarker(new MarkerOptions().position(odense).title("Marker in Odense"));
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(odense, 16));
     }
 
     @Override
