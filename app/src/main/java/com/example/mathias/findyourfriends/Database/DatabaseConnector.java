@@ -12,7 +12,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class DatabaseConnector {
 
-    DatabaseReference ref;
+    private DatabaseReference ref;
 
     public DatabaseConnector(String child) {
         ref = FirebaseDatabase.getInstance().getReference().child(child);
@@ -32,5 +32,9 @@ public class DatabaseConnector {
         Group group = new Group(id, groupName);
 
         ref.child(id).setValue(group);
+    }
+
+    public DatabaseReference getRef() {
+        return ref;
     }
 }
