@@ -12,6 +12,11 @@ import com.example.mathias.findyourfriends.Database.DatabaseConnector;
 import com.example.mathias.findyourfriends.R;
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 public class LoginActivity extends AppCompatActivity {
     private EditText editTextUsername;
@@ -53,14 +58,45 @@ public class LoginActivity extends AppCompatActivity {
 
     private void startNewActivity(int resultCode, Intent data) {
         if(resultCode == RESULT_OK) {
-            Intent intent = new Intent(LoginActivity.this, CreateUserActivity.class);
-            startActivity(intent);
-            finish();
+            //Intent intent = new Intent(LoginActivity.this, CreateUserActivity.class);
+            //startActivity(intent);
+            //finish();
+            checkIfUserExists();
         }
 
         else {
             Toast.makeText(this, "Login failed", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public void checkIfUserExists() {
+        database = new DatabaseConnector("Users");
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String email = user.getEmail();
+
+        Query query = database.getRef().orderByChild("email").equalTo(email);
+
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    Intent intent = new Intent(LoginActivity.this, NavigationDrawerActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+
+                else {
+                    Intent intent = new Intent(LoginActivity.this, CreateUserActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
 
