@@ -18,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.mathias.findyourfriends.Fragments.CreateGroupFragment;
+import com.example.mathias.findyourfriends.Fragments.JoinGroupFragment;
 import com.example.mathias.findyourfriends.Fragments.MapFragment;
 import com.example.mathias.findyourfriends.Fragments.ShowGroupFragment;
 import com.example.mathias.findyourfriends.R;
@@ -31,8 +32,6 @@ public class NavigationDrawerActivity extends AppCompatActivity
         setContentView(R.layout.activity_navigation_drawer);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -93,6 +92,9 @@ public class NavigationDrawerActivity extends AppCompatActivity
             case R.id.nav_create_group:
                 fragment = new CreateGroupFragment();
                 break;
+            case R.id.nav_join_group:
+                fragment = new JoinGroupFragment();
+                break;
             case R.id.nav_show_groups:
                 fragment = new ShowGroupFragment();
                 break;
@@ -110,4 +112,6 @@ public class NavigationDrawerActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
     }
+
+
 }

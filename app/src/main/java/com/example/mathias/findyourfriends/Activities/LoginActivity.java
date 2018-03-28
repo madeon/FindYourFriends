@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.mathias.findyourfriends.Database.DatabaseConnector;
 import com.example.mathias.findyourfriends.R;
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
@@ -18,6 +19,7 @@ public class LoginActivity extends AppCompatActivity {
     private Button createUserButton;
     private Button loginButton;
     private FirebaseAuth firebaseAuth;
+    DatabaseConnector database;
     private final static int LOGIN_PERMISSION = 1000;
 
     @Override
@@ -27,6 +29,7 @@ public class LoginActivity extends AppCompatActivity {
         createUserButton = (Button)findViewById(R.id.createUserButton);
         loginButton = (Button)findViewById(R.id.loginButton);
         firebaseAuth = FirebaseAuth.getInstance();
+
     }
 
     public void createUserButton_click(View view) {
@@ -50,7 +53,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void startNewActivity(int resultCode, Intent data) {
         if(resultCode == RESULT_OK) {
-            Intent intent = new Intent(LoginActivity.this, NavigationDrawerActivity.class);
+            Intent intent = new Intent(LoginActivity.this, CreateUserActivity.class);
             startActivity(intent);
             finish();
         }
@@ -58,6 +61,18 @@ public class LoginActivity extends AppCompatActivity {
         else {
             Toast.makeText(this, "Login failed", Toast.LENGTH_SHORT).show();
         }
+    }
+
+
+    public void databaseButton_click(View view) {
+
+        database = new DatabaseConnector("Groups");
+        database.createGroup("Tinderbox 2018");
+
+        //database = new DatabaseConnector("Users");
+        //database.createUser("Mathias", "mathias-1992@live.dk");
+
+        Toast.makeText(this, "User added", Toast.LENGTH_SHORT).show();
     }
 
 
