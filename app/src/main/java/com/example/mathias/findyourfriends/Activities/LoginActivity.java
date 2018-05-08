@@ -72,6 +72,7 @@ public class LoginActivity extends AppCompatActivity {
     public void checkIfUserExists() {
         database = new DatabaseConnector("Users");
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String name = user.getDisplayName();
         String email = user.getEmail();
 
         Query query = database.getRef().orderByChild("email").equalTo(email);

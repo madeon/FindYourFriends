@@ -9,6 +9,10 @@
             android:icon="@drawable/ic_group_add_black_24dp"
             android:title="Create Group"/>
         <item
+            android:id="@+id/nav_join_group"
+            android:icon="@drawable/ic_group_add_black_24dp"
+            android:title="Join Group"/>
+        <item
             android:id="@+id/nav_show_groups"
             android:icon="@drawable/ic_group_black_24px"
             android:title="Show Groups" />
