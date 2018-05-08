@@ -40,7 +40,7 @@ public class LoginActivity extends AppCompatActivity {
     public void createUserButton_click(View view) {
         startActivityForResult(
                 AuthUI.getInstance().createSignInIntentBuilder()
-                .setAllowNewEmailAccounts(true).build(), LOGIN_PERMISSION
+                        .setAllowNewEmailAccounts(true).build(), LOGIN_PERMISSION
         );
     }
 
@@ -104,7 +104,7 @@ public class LoginActivity extends AppCompatActivity {
     public void databaseButton_click(View view) {
 
         database = new DatabaseConnector("Groups");
-        database.createGroup("Tinderbox 2018");
+        database.createGroup("Tinderbox 2018", "123456");
 
         //database = new DatabaseConnector("Users");
         //database.createUser("Mathias", "mathias-1992@live.dk");

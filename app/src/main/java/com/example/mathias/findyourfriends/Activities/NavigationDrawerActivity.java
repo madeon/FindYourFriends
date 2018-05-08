@@ -16,15 +16,24 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.example.mathias.findyourfriends.Fragments.CreateGroupFragment;
 import com.example.mathias.findyourfriends.Fragments.JoinGroupFragment;
 import com.example.mathias.findyourfriends.Fragments.MapFragment;
 import com.example.mathias.findyourfriends.Fragments.ShowGroupFragment;
 import com.example.mathias.findyourfriends.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class NavigationDrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private TextView textViewName;
+    private TextView textViewEmail;
+    private FirebaseAuth firebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,8 +48,28 @@ public class NavigationDrawerActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
+        firebaseAuth = FirebaseAuth.getInstance();
+
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        View navHeaderView = navigationView.getHeaderView(0);
+
+
+        textViewName = (TextView) navHeaderView.findViewById(R.id.nameTextView);
+        textViewEmail = (TextView) navHeaderView.findViewById(R.id.emailTextView);
+
+        displayUsernameAndEmail();
+
+
+    }
+
+    private void displayUsernameAndEmail() {
+
+        if(firebaseAuth.getCurrentUser() != null) {
+            textViewName.setText(firebaseAuth.getCurrentUser().getDisplayName());
+            textViewEmail.setText(firebaseAuth.getCurrentUser().getEmail());
+        }
     }
 
     @Override

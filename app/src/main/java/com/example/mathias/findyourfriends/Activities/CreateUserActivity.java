@@ -19,7 +19,7 @@ public class CreateUserActivity extends AppCompatActivity {
 
     private TextView text;
     private DatabaseConnector database;
-    FirebaseUser user;
+    private FirebaseUser user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +36,7 @@ public class CreateUserActivity extends AppCompatActivity {
         database = new DatabaseConnector("Users");
         String username = text.getText().toString();
 
-        database.createUser(username, user.getEmail());
+        database.createUser(user.getEmail(), user.getDisplayName());
 
         Toast.makeText(this, "User Created", Toast.LENGTH_SHORT).show();
 

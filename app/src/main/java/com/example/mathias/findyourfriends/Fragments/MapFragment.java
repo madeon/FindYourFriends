@@ -22,6 +22,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.example.mathias.findyourfriends.Database.DatabaseConnector;
 import com.google.android.gms.location.LocationServices;
 import com.example.mathias.findyourfriends.Helpers.ToastMaker;
 import com.example.mathias.findyourfriends.R;
@@ -48,12 +49,14 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
     private static LocationManager manager;
     private Location location;
     private double lat, lng;
+    private DatabaseConnector databaseConnector;
 
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         toast = new ToastMaker();
+        databaseConnector = new DatabaseConnector("Users");
         getActivity().setTitle("Map");
     }
 
@@ -129,6 +132,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
         this.lng = location.getLongitude();
 
         LatLng latlng = new LatLng(lat, lng);
+        databaseConnector.updateLocation(lat, lng);
         addMarker(latlng);
     }
 
