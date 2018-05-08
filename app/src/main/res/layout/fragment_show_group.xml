@@ -12,7 +12,7 @@
         android:layout_marginEnd="64dp"
         android:layout_marginStart="64dp"
         android:layout_marginTop="68dp"
-        android:text="@string/hello_show_group_fragment"
+        android:text="@string/show_group_fragment"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"

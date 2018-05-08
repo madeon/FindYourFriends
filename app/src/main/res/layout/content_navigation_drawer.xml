@@ -8,10 +8,17 @@
     tools:context="com.example.mathias.findyourfriends.Activities.NavigationDrawerActivity"
     tools:showIn="@layout/app_bar_navigation_drawer">
 
+
+
 	<FrameLayout
 		android:id="@+id/content_frame"
 		android:layout_width="match_parent"
-		android:layout_height="match_parent" />
-		</android.support.constraint.ConstraintLayout>
+		android:layout_height="match_parent" >
+
+	</FrameLayout>
+
+
+
+</android.support.constraint.ConstraintLayout>
 
 
