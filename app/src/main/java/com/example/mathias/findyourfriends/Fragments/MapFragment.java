@@ -23,6 +23,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.example.mathias.findyourfriends.Database.DatabaseConnector;
+import com.example.mathias.findyourfriends.Helpers.User;
 import com.google.android.gms.location.LocationServices;
 import com.example.mathias.findyourfriends.Helpers.ToastMaker;
 import com.example.mathias.findyourfriends.R;
@@ -35,6 +36,13 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by mathi on 19-03-2018.
@@ -45,11 +53,14 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
     private FloatingActionButton myLocationButton;
     private ToastMaker toast;
     private GoogleMap map;
-    private Marker marker;
     private static LocationManager manager;
     private Location location;
     private double lat, lng;
     private DatabaseConnector databaseConnector;
+    private List<User> users;
+    private Marker marker;
+    boolean addedMarkers = false;
+
 
 
     @Override
@@ -57,14 +68,15 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
         super.onViewCreated(view, savedInstanceState);
         toast = new ToastMaker();
         databaseConnector = new DatabaseConnector("Users");
+        users = new ArrayList<>();
         getActivity().setTitle("Map");
+        addAllUsersToList();
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_map, container, false);
-
 
 
         SupportMapFragment mapFragment = (SupportMapFragment) this.getChildFragmentManager()
@@ -92,11 +104,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
     private void requestGpsPermission() {
 
         if (Build.VERSION.SDK_INT >= 23 &&
-                ContextCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION ) != PackageManager.PERMISSION_GRANTED &&
+                ContextCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                 ContextCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
             ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_COARSE_LOCATION,
-                            Manifest.permission.ACCESS_FINE_LOCATION},1001);
+                    Manifest.permission.ACCESS_FINE_LOCATION}, 1001);
 
             return;
         }
@@ -109,20 +121,30 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 
             map.setMyLocationEnabled(true);
             map.getUiSettings().setMyLocationButtonEnabled(true);
-        }
-
-        catch(Exception ex) {
+        } catch (Exception ex) {
             Log.d("Service Error", ex.getMessage());
         }
     }
 
-    private void addMarker(LatLng latlng) {
-
-        if(marker != null) {
-            marker.remove();
+    private void updateMarkers() {
+        for (User user : users) {
+            LatLng latlng = new LatLng(user.getLat(), user.getLng());
+            marker.setPosition(latlng);
         }
 
-        marker = map.addMarker(new MarkerOptions().position(latlng));
+        users.clear();
+    }
+
+    private void addMarkers() {
+
+        if (addedMarkers == false) {
+
+            for (User user : users) {
+                LatLng latlng = new LatLng(user.getLat(), user.getLng());
+                marker = map.addMarker(new MarkerOptions().position(latlng).title(user.getName()));
+            }
+        }
+        addedMarkers = true;
     }
 
     @Override
@@ -130,10 +152,13 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
         this.location = location;
         this.lat = location.getLatitude();
         this.lng = location.getLongitude();
-
-        LatLng latlng = new LatLng(lat, lng);
         databaseConnector.updateLocation(lat, lng);
-        addMarker(latlng);
+
+        addAllUsersToList();
+        addMarkers();
+        updateMarkers();
+
+
     }
 
     @Override
@@ -149,6 +174,24 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
     @Override
     public void onProviderDisabled(String provider) {
         toast.createToast(getActivity(), "GPS is disabled");
+    }
+
+    private void addAllUsersToList() {
+        FirebaseDatabase.getInstance().getReference().child("Users")
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+
+                            User user = snapshot.getValue(User.class);
+                            users.add(user);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                    }
+                });
     }
 
 

@@ -8,12 +8,14 @@ public class User {
 
     private String UID;
     private String name;
-
-
-
     private String email;
     private double lat;
     private double lng;
+
+
+    public User() {
+
+    }
 
     public User(String UID, String email, String name, double lat, double lng) {
         this.UID = UID;
