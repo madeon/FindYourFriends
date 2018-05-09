@@ -11,9 +11,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+
 import com.example.mathias.findyourfriends.Database.DatabaseConnector;
 import com.example.mathias.findyourfriends.Helpers.ToastMaker;
 import com.example.mathias.findyourfriends.R;
+import com.google.firebase.functions.FirebaseFunctions;
 
 /**
  * Created by mathi on 19-03-2018.
@@ -24,6 +26,9 @@ public class CreateGroupFragment extends Fragment {
     private EditText editText;
     private Button createGroupButton;
     private DatabaseConnector database;
+    private FirebaseFunctions mFunctions;
+
+
 
 
     @Override
@@ -32,6 +37,7 @@ public class CreateGroupFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         editText = (EditText) view.findViewById(R.id.groupNameTextEdit);
         createGroupButton = (Button) view.findViewById(R.id.createGroupButton);
+        mFunctions = FirebaseFunctions.getInstance();
 
         createGroupButton.setOnClickListener(new View.OnClickListener() {
             @Override
