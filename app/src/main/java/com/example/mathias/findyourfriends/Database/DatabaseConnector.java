@@ -10,6 +10,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import static com.google.firebase.auth.FirebaseAuth.getInstance;
+
 /**
  * Created by mathi on 27-03-2018.
  */
@@ -26,17 +28,23 @@ public class DatabaseConnector {
 
 
     public void createUser(String email, String name) {
-        String id = ref.push().getKey();
-
-        User user = new User(id, email, name, 0, 0);
-
-        ref.child(id).setValue(user);
-    }
-
-    public void createGroup(String groupName, String id) {
         //String id = ref.push().getKey();
 
-        Group group = new Group(groupName, id);
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        FirebaseUser firebaseUser = auth.getCurrentUser();
+        String uid = firebaseUser.getUid();
+
+
+
+        User user = new User(uid, email, name, 0, 0);
+
+        ref.child(uid).setValue(user);
+    }
+
+    public void createGroup(String groupName, String id, String userID) {
+        //String id = ref.push().getKey();
+
+        Group group = new Group(groupName, id, userID);
 
         ref.child(id).setValue(group);
     }
@@ -46,15 +54,13 @@ public class DatabaseConnector {
     }
 
     public void updateLocation(double lat, double lng) {
-        //database.getInstance().getReference("Users").child("lat").setValue(lat);
-        //database.getInstance().getReference("Users").child("lng").setValue(lng);
 
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        FirebaseUser firebaseUser = auth.getCurrentUser();
+        String uid = firebaseUser.getUid();
 
-        database.getInstance().getReference("Users").child(user.getUid()).child("lat").setValue(lat);
-        database.getInstance().getReference("Users").child(user.getUid()).child("lng").setValue(lng);
-
-        Log.d("Test", "User: " + database.getInstance().getReference("Users").child(user.getUid()));
+        database.getInstance().getReference("Users").child(uid).child("lat").setValue(lat);
+        database.getInstance().getReference("Users").child(uid).child("lng").setValue(lng);
     }
 
 
