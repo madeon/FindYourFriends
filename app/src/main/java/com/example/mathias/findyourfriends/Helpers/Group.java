@@ -8,10 +8,12 @@ public class Group {
 
     private String groupName;
     private String ID;
+    private String userID;
 
-    public Group(String groupName, String ID) {
+    public Group(String groupName, String ID, String userID) {
         this.groupName = groupName;
         this.ID = ID;
+        this.userID = userID;
     }
 
 
@@ -27,4 +29,11 @@ public class Group {
     public void setGroupName(String groupName) {
         this.groupName = groupName;
     }
+    public String getUserID() {
+        return userID;
+    }
+    public void setUserID(String userID) {
+        this.userID = userID;
+    }
+
 }
