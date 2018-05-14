@@ -1,5 +1,7 @@
 package com.example.mathias.findyourfriends.Helpers;
 
+import com.google.android.gms.maps.model.Marker;
+
 /**
  * Created by mathi on 27-03-2018.
  */
@@ -11,7 +13,6 @@ public class User {
     private String email;
     private double lat;
     private double lng;
-
 
     public User() {
 
