@@ -37,6 +37,7 @@ public class JoinGroupFragment extends Fragment {
         editText4 = (EditText) view.findViewById(R.id.editText4);
         editText5 = (EditText) view.findViewById(R.id.editText5);
         editText6 = (EditText) view.findViewById(R.id.editText6);
+        joinGroup = (Button) view.findViewById(R.id.button2);
         id = new StringBuilder();
 
 
@@ -159,12 +160,15 @@ public class JoinGroupFragment extends Fragment {
             }
         });
 
-        super.onViewCreated(view, savedInstanceState);
-    }
+        joinGroup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DatabaseConnector database = new DatabaseConnector("Users");
+                database.joinGroup(id.toString());
+            }
+        });
 
-    public void joinGroup_click(View view) {
-        DatabaseConnector database = new DatabaseConnector("Users");
-        database.joinGroup(id.toString());
+        super.onViewCreated(view, savedInstanceState);
     }
 
     @Nullable
