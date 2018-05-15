@@ -15,6 +15,10 @@ public class Group {
         this.ID = ID;
     }
 
+    public Group() {
+
+    }
+
 
     public String getID() {
         return ID;
