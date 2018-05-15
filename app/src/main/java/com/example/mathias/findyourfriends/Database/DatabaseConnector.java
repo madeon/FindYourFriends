@@ -41,10 +41,10 @@ public class DatabaseConnector {
         ref.child(uid).setValue(user);
     }
 
-    public void createGroup(String groupName, String id, String userID) {
+    public void createGroup(String groupName, String id, String users) {
         //String id = ref.push().getKey();
 
-        Group group = new Group(groupName, id, userID);
+        Group group = new Group(groupName, id, users);
 
         ref.child(id).setValue(group);
     }
