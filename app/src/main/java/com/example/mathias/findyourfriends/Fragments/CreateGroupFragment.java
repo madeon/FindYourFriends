@@ -60,7 +60,7 @@ public class CreateGroupFragment extends Fragment {
         String groupName = editText.getText().toString();
 
         if (!TextUtils.isEmpty(groupName)) {
-            database.createGroup(editText.getText().toString(), "123");
+            database.createGroup(editText.getText().toString());
             Toast.makeText(getContext(), "Group Created", Toast.LENGTH_SHORT).show();
         }
 

@@ -37,7 +37,7 @@ public class JoinGroupFragment extends Fragment {
         editText4 = (EditText) view.findViewById(R.id.editText4);
         editText5 = (EditText) view.findViewById(R.id.editText5);
         editText6 = (EditText) view.findViewById(R.id.editText6);
-
+        id = new StringBuilder();
 
         editText1.addTextChangedListener(new TextWatcher() {
             @Override
