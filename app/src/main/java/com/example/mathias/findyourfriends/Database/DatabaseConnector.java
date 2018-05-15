@@ -10,6 +10,9 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static com.google.firebase.auth.FirebaseAuth.getInstance;
 
 /**
@@ -36,21 +39,27 @@ public class DatabaseConnector {
 
 
 
-        User user = new User(uid, email, name, 0, 0);
+        User user = new User(uid, email, name, 0, 0, "");
 
         ref.child(uid).setValue(user);
     }
 
-    public void createGroup(String groupName, String id, String users) {
-        //String id = ref.push().getKey();
+    public void createGroup(String groupName, String id) {
 
-        Group group = new Group(groupName, id, users);
+        Group group = new Group(groupName, id);
 
         ref.child(id).setValue(group);
     }
 
     public void joinGroup(String id) {
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        FirebaseUser firebaseUser = auth.getCurrentUser();
+        String uid = firebaseUser.getUid();
 
+        Map map = new HashMap();
+        map.put("groupID", id);
+
+        ref.child(uid).updateChildren(map);
     }
 
     public void updateLocation(double lat, double lng) {

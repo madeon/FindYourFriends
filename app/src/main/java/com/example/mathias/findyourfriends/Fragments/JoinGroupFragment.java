@@ -8,9 +8,11 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.mathias.findyourfriends.Database.DatabaseConnector;
 import com.example.mathias.findyourfriends.Helpers.ToastMaker;
 import com.example.mathias.findyourfriends.R;
 
@@ -22,6 +24,9 @@ public class JoinGroupFragment extends Fragment {
 
     ToastMaker toast = new ToastMaker();
     EditText editText1, editText2, editText3, editText4, editText5, editText6;
+    Button joinGroup;
+    StringBuilder id;
+
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -48,6 +53,7 @@ public class JoinGroupFragment extends Fragment {
             @Override
             public void afterTextChanged(Editable s) {
                 if (s.length() == 1) {
+                    id.append(s.toString());
                     editText2.requestFocus();
                 }
             }
@@ -67,6 +73,7 @@ public class JoinGroupFragment extends Fragment {
             @Override
             public void afterTextChanged(Editable s) {
                 if (s.length() == 1) {
+                    id.append(s.toString());
                     editText3.requestFocus();
                 }
             }
@@ -86,6 +93,7 @@ public class JoinGroupFragment extends Fragment {
             @Override
             public void afterTextChanged(Editable s) {
                 if (s.length() == 1) {
+                    id.append(s.toString());
                     editText4.requestFocus();
                 }
             }
@@ -105,6 +113,7 @@ public class JoinGroupFragment extends Fragment {
             @Override
             public void afterTextChanged(Editable s) {
                 if (s.length() == 1) {
+                    id.append(s.toString());
                     editText5.requestFocus();
                 }
             }
@@ -124,7 +133,27 @@ public class JoinGroupFragment extends Fragment {
             @Override
             public void afterTextChanged(Editable s) {
                 if (s.length() == 1) {
+                    id.append(s.toString());
                     editText6.requestFocus();
+                }
+            }
+        });
+
+        editText6.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.length() == 1) {
+                    id.append(s.toString());
                 }
             }
         });
@@ -132,6 +161,10 @@ public class JoinGroupFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
     }
 
+    public void joinGroup_click(View view) {
+        DatabaseConnector database = new DatabaseConnector("Users");
+        database.joinGroup(id.toString());
+    }
 
     @Nullable
     @Override

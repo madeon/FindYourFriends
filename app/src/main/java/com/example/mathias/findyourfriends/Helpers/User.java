@@ -11,19 +11,22 @@ public class User {
     private String UID;
     private String name;
     private String email;
+    private String groupID;
     private double lat;
     private double lng;
+
 
     public User() {
 
     }
 
-    public User(String UID, String email, String name, double lat, double lng) {
+    public User(String UID, String email, String name, double lat, double lng, String groupID) {
         this.UID = UID;
         this.email = email;
         this.name = name;
         this.lat = lat;
         this.lng = lng;
+        this.groupID = groupID;
     }
 
     public String getUID() {
@@ -66,4 +69,11 @@ public class User {
         this.email = email;
     }
 
+    public String getGroupID() {
+        return groupID;
+    }
+
+    public void setGroupID(String groupID) {
+        this.groupID = groupID;
+    }
 }
