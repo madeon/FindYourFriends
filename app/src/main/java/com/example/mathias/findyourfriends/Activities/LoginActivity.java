@@ -34,7 +34,6 @@ public class LoginActivity extends AppCompatActivity {
         createUserButton = (Button)findViewById(R.id.createUserButton);
         loginButton = (Button)findViewById(R.id.loginButton);
         firebaseAuth = FirebaseAuth.getInstance();
-        test();
 
     }
 
@@ -49,8 +48,6 @@ public class LoginActivity extends AppCompatActivity {
         Intent intent = new Intent(this, NavigationDrawerActivity.class);
         startActivity(intent);
     }
-
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -103,11 +100,5 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    public void test() {
-        startActivityForResult(
-                AuthUI.getInstance().createSignInIntentBuilder()
-                        .setAllowNewEmailAccounts(true).build(), LOGIN_PERMISSION
-        );
-    }
 
 }
