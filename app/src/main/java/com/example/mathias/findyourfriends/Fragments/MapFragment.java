@@ -65,18 +65,18 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
     private Location location;
     private double lat, lng;
     private DatabaseConnector databaseConnector;
-    private List<User> users;
     boolean addedMarkers = false;
     private TreeMap<String, User> userMap;
     private TreeMap<String, MarkerOptions> markerMap;
+    private boolean running;
 
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        users = new ArrayList<>();
         userMap = new TreeMap<>();
         markerMap = new TreeMap<>();
+        running = true;
         getUsersFromDatabase();
     }
 
@@ -86,15 +86,23 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
         toast = new ToastMaker();
         databaseConnector = new DatabaseConnector("Users");
         getActivity().setTitle("Map");
+        running = true;
 
         Handler handler = new Handler(Looper.getMainLooper());
         handler.post(new Runnable() {
             @Override
             public void run() {
 
-                if (userMap.size() > 0) {
-                    update();
+                if (running) {
+                    if (userMap.size() > 0) {
+                        update();
+                    }
                 }
+
+                else {
+                    return;
+                }
+
             }
         });
     }
@@ -155,6 +163,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 
     private void updateMarkers() {
 
+        if (getActivity() == null) {
+            return;
+        }
+
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -176,6 +188,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 
         if (addedMarkers == false) {
 
+            if (getActivity() == null) {
+                return;
+            }
+
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -192,7 +208,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
         addedMarkers = true;
     }
 
-    
+
     @Override
     public void onLocationChanged(Location location) {
         this.location = location;
@@ -255,5 +271,17 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
                 });
     }
 
+    @Override
+    public void onDestroy() {
+        toast.createToast(getActivity(), "onDestroy()");
+        running = false;
+        super.onDestroy();
+    }
 
+    @Override
+    public void onPause() {
+        toast.createToast(getActivity(), "onPause()");
+        running = false;
+        super.onPause();
+    }
 }

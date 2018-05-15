@@ -48,6 +48,7 @@ public class DatabaseConnector {
     }
 
     public void createGroup(String groupName) {
+
         String id = ref.push().getKey();
 
         Group group = new Group(groupName, id);
