@@ -26,6 +26,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.example.mathias.findyourfriends.Database.DatabaseConnector;
+import com.example.mathias.findyourfriends.Helpers.Group;
 import com.example.mathias.findyourfriends.Helpers.User;
 import com.google.android.gms.location.LocationServices;
 import com.example.mathias.findyourfriends.Helpers.ToastMaker;
@@ -39,6 +40,8 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -68,7 +71,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
     boolean addedMarkers = false;
     private TreeMap<String, User> userMap;
     private TreeMap<String, MarkerOptions> markerMap;
-    private boolean running;
+    private String groupID;
 
 
     @Override
@@ -76,8 +79,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
         super.onAttach(context);
         userMap = new TreeMap<>();
         markerMap = new TreeMap<>();
-        running = true;
-        getUsersFromDatabase();
+        //getUsersFromDatabase();
     }
 
     @Override
@@ -85,23 +87,21 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
         super.onViewCreated(view, savedInstanceState);
         toast = new ToastMaker();
         databaseConnector = new DatabaseConnector("Users");
+        getGroupID();
         getActivity().setTitle("Map");
-        running = true;
 
         Handler handler = new Handler(Looper.getMainLooper());
         handler.post(new Runnable() {
             @Override
             public void run() {
+                Log.d("RUN", "Size: " + userMap.size());
 
-                if (running) {
-                    if (userMap.size() > 0) {
+
                         update();
-                    }
-                }
 
-                else {
-                    return;
-                }
+
+
+
 
             }
         });
@@ -186,7 +186,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 
     private void addMarkers() {
 
+
+
         if (addedMarkers == false) {
+
 
             if (getActivity() == null) {
                 return;
@@ -221,9 +224,15 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
         new Timer().scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                getUsersFromDatabase();
-                addMarkers();
-                updateMarkers();
+
+                Log.d("UPDATE", "kaldt");
+                //getUsersFromDatabase();
+
+                if (userMap.size() > 0) {
+                    addMarkers();
+                    updateMarkers();
+                }
+
             }
         }, 0, 1000);
     }
@@ -243,24 +252,49 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
         toast.createToast(getActivity(), "GPS is disabled");
     }
 
+    private void getGroupID() {
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        FirebaseUser firebaseUser = auth.getCurrentUser();
+        String uid = firebaseUser.getUid();
+
+
+        databaseConnector.getRef().child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                groupID = dataSnapshot.getValue(User.class).getGroupID();
+
+                getUsersFromDatabase();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
     private void getUsersFromDatabase() {
+
         FirebaseDatabase.getInstance().getReference().child("Users")
-                .addListenerForSingleValueEvent(new ValueEventListener() {
+                .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
+
                         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
 
                             User user = snapshot.getValue(User.class);
 
-                            if (!userMap.containsKey(user.getUID())) {
-                                userMap.put(user.getUID(), user);
-                                markerMap.put(user.getUID(), new MarkerOptions());
+                            if (user.getGroupID().equals(groupID)) {
 
-                            } else {
+                                if (!userMap.containsKey(user.getUID())) {
+                                    userMap.put(user.getUID(), user);
+                                    markerMap.put(user.getUID(), new MarkerOptions());
 
-                                userMap.get(user.getUID()).setLat(user.getLat());
-                                userMap.get(user.getUID()).setLng(user.getLng());
+                                } else {
 
+                                    userMap.get(user.getUID()).setLat(user.getLat());
+                                    userMap.get(user.getUID()).setLng(user.getLng());
+                                }
                             }
                         }
                     }
@@ -269,19 +303,5 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
                     public void onCancelled(DatabaseError databaseError) {
                     }
                 });
-    }
-
-    @Override
-    public void onDestroy() {
-        toast.createToast(getActivity(), "onDestroy()");
-        running = false;
-        super.onDestroy();
-    }
-
-    @Override
-    public void onPause() {
-        toast.createToast(getActivity(), "onPause()");
-        running = false;
-        super.onPause();
     }
 }
