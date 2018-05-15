@@ -34,6 +34,7 @@ public class LoginActivity extends AppCompatActivity {
         createUserButton = (Button)findViewById(R.id.createUserButton);
         loginButton = (Button)findViewById(R.id.loginButton);
         firebaseAuth = FirebaseAuth.getInstance();
+        test();
 
     }
 
@@ -100,17 +101,11 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-
-    public void databaseButton_click(View view) {
-
-        database = new DatabaseConnector("Groups");
-        database.createGroup("Tinderbox 2018", "123456", "");
-
-        //database = new DatabaseConnector("Users");
-        //database.createUser("Mathias", "mathias-1992@live.dk");
-
-        Toast.makeText(this, "User added", Toast.LENGTH_SHORT).show();
+    public void test() {
+        startActivityForResult(
+                AuthUI.getInstance().createSignInIntentBuilder()
+                        .setAllowNewEmailAccounts(true).build(), LOGIN_PERMISSION
+        );
     }
-
 
 }
