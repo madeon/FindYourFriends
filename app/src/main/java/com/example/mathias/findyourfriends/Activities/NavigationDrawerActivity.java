@@ -20,6 +20,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.mathias.findyourfriends.Fragments.CreateGroupFragment;
+import com.example.mathias.findyourfriends.Fragments.HomeFragment;
 import com.example.mathias.findyourfriends.Fragments.JoinGroupFragment;
 import com.example.mathias.findyourfriends.Fragments.MapFragment;
 import com.example.mathias.findyourfriends.Fragments.ShowGroupFragment;
@@ -41,6 +42,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
         setContentView(R.layout.activity_navigation_drawer);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        toolbar.setTitle("Start Page");
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -55,11 +57,12 @@ public class NavigationDrawerActivity extends AppCompatActivity
 
         View navHeaderView = navigationView.getHeaderView(0);
 
-
         textViewName = (TextView) navHeaderView.findViewById(R.id.nameTextView);
         textViewEmail = (TextView) navHeaderView.findViewById(R.id.emailTextView);
 
         displayUsernameAndEmail();
+
+        displayFragment(R.id.nav_show_home);
 
 
     }
@@ -118,6 +121,9 @@ public class NavigationDrawerActivity extends AppCompatActivity
         Fragment fragment = null;
 
         switch (id) {
+            case R.id.nav_show_home:
+                fragment = new HomeFragment();
+                break;
             case R.id.nav_create_group:
                 fragment = new CreateGroupFragment();
                 break;

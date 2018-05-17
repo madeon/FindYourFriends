@@ -13,7 +13,8 @@
     <string name="hello_map_fragment">This is the map fragment</string>
     <string name="show_group_fragment">This is where the groups will be shown</string>
     <string name="join_group_fragment">Enter group code</string>
-    <string name="create_group_fragment">This is where create group is shown</string>
+    <string name="create_group_fragment">You need to create a group to get your ID.</string>
     <string name="title_activity_maps">Map</string>
     <string name="title_activity_create_user">Create User</string>
+    <string name="description">Welcome. Create a group and share your code with your friends or join your friends group.</string>
 </resources>

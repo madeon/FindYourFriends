@@ -38,10 +38,10 @@ public class CreateUserActivity extends AppCompatActivity {
 
         database.createUser(user.getEmail(), user.getDisplayName());
 
-        Toast.makeText(this, "User Created", Toast.LENGTH_SHORT).show();
-
         Intent intent = new Intent(CreateUserActivity.this, NavigationDrawerActivity.class);
         startActivity(intent);
     }
+
+
 
 }

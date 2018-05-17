@@ -1,8 +1,11 @@
 package com.example.mathias.findyourfriends.Fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +15,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 
+import com.example.mathias.findyourfriends.Activities.LoginActivity;
+import com.example.mathias.findyourfriends.Activities.NavigationDrawerActivity;
 import com.example.mathias.findyourfriends.Database.DatabaseConnector;
 import com.example.mathias.findyourfriends.Helpers.ToastMaker;
 import com.example.mathias.findyourfriends.R;
@@ -62,11 +67,21 @@ public class CreateGroupFragment extends Fragment {
         if (!TextUtils.isEmpty(groupName)) {
             database.createGroup(editText.getText().toString());
             Toast.makeText(getContext(), "Group Created", Toast.LENGTH_SHORT).show();
+            switchFragment();
         }
 
         else {
             Toast.makeText(getContext(), "You must enter a group name!", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void switchFragment() {
+        Fragment fragment = new HomeFragment();
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.content_frame, fragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
     }
 
 

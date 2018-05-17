@@ -1,14 +1,18 @@
 package com.example.mathias.findyourfriends.Fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.mathias.findyourfriends.Activities.LoginActivity;
+import com.example.mathias.findyourfriends.Activities.NavigationDrawerActivity;
 import com.example.mathias.findyourfriends.Database.DatabaseConnector;
 import com.example.mathias.findyourfriends.Helpers.User;
 import com.example.mathias.findyourfriends.R;
@@ -26,14 +30,14 @@ public class ShowGroupFragment extends Fragment {
 
     private DatabaseConnector databaseConnector;
     private String groupID;
-    private TextView textView;
+    private TextView textView, textViewID;
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         getActivity().setTitle("Group");
         databaseConnector = new DatabaseConnector("Users");
         textView = (TextView) view.findViewById(R.id.displayGroupIDTextView);
-
+        textViewID = (TextView) view.findViewById(R.id.displayID);
         getGroupID();
         showGroupID();
         super.onViewCreated(view, savedInstanceState);
@@ -46,9 +50,13 @@ public class ShowGroupFragment extends Fragment {
     }
 
     private void showGroupID() {
-        if(groupID != null) {
-            textView.setText("Your unique ID " + groupID + " to share with your friends.");
-        }
+            textView.setText("You need to create a group to get a unique ID to share with your friends.");
+
+            if(groupID != null && groupID.length() > 0) {
+                textView.setText("This is your unique ID. Share it with a friend to let them join your group!");
+                textViewID.setText("" + groupID);
+                textViewID.setTextSize(60);
+            }
     }
 
     private void getGroupID() {
@@ -61,7 +69,10 @@ public class ShowGroupFragment extends Fragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 groupID = dataSnapshot.getValue(User.class).getGroupID();
-                showGroupID();
+
+                if (groupID!= null) {
+                    showGroupID();
+                }
             }
 
             @Override

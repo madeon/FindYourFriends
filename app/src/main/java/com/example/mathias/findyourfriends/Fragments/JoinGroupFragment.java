@@ -22,10 +22,10 @@ import com.example.mathias.findyourfriends.R;
 
 public class JoinGroupFragment extends Fragment {
 
-    ToastMaker toast = new ToastMaker();
-    EditText editText1, editText2, editText3, editText4, editText5, editText6;
-    Button joinGroup;
-    StringBuilder id;
+    private ToastMaker toast = new ToastMaker();
+    private EditText editText1, editText2, editText3, editText4, editText5, editText6;
+    private Button joinGroup;
+    private StringBuilder id;
 
 
     @Override

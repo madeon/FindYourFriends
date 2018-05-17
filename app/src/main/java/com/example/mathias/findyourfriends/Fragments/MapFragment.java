@@ -95,13 +95,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
             @Override
             public void run() {
                 Log.d("RUN", "Size: " + userMap.size());
-
-
                         update();
-
-
-
-
 
             }
         });
@@ -123,7 +117,16 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
         myLocationButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 LatLng latlng = new LatLng(lat, lng);
-                map.animateCamera(CameraUpdateFactory.newLatLngZoom((latlng), 16));
+                double lat = latlng.latitude;
+                double lng = latlng.longitude;
+
+                if(lat == 0.0 || lng == 0.0) {
+                    toast.createToast(getActivity(), "GPS is still loading. Please try again");
+                }
+                else {
+                    map.animateCamera(CameraUpdateFactory.newLatLngZoom((latlng), 16));
+                }
+
             }
         });
 
@@ -175,9 +178,15 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 
                 for (Map.Entry<String, User> pair : userMap.entrySet()) {
 
-                    LatLng latlng = new LatLng(pair.getValue().getLat(), pair.getValue().getLng());
-                    Marker marker = map.addMarker(markerMap.get(pair.getKey()));
-                    marker.setPosition(latlng);
+                    try {
+                        LatLng latlng = new LatLng(pair.getValue().getLat(), pair.getValue().getLng());
+                        Marker marker = map.addMarker(markerMap.get(pair.getKey()));
+                        marker.setPosition(latlng);
+                    }
+
+                    catch(Exception ex) {
+                        continue;
+                    }
                 }
             }
         });
@@ -186,10 +195,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
 
     private void addMarkers() {
 
-
-
         if (addedMarkers == false) {
-
 
             if (getActivity() == null) {
                 return;
@@ -225,14 +231,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, Locatio
             @Override
             public void run() {
 
-                Log.d("UPDATE", "kaldt");
-                //getUsersFromDatabase();
-
                 if (userMap.size() > 0) {
                     addMarkers();
                     updateMarkers();
                 }
-
             }
         }, 0, 1000);
     }

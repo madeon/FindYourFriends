@@ -3,6 +3,7 @@ package com.example.mathias.findyourfriends.Activities;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -58,15 +59,20 @@ public class LoginActivity extends AppCompatActivity {
 
     private void startNewActivity(int resultCode, Intent data) {
         if(resultCode == RESULT_OK) {
-            //Intent intent = new Intent(LoginActivity.this, CreateUserActivity.class);
-            //startActivity(intent);
-            //finish();
             checkIfUserExists();
+
         }
 
         else {
             Toast.makeText(this, "Login failed", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void createUser() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        database = new DatabaseConnector("Users");
+        database.createUser(user.getEmail(), user.getDisplayName());
+        Toast.makeText(this, "User Created", Toast.LENGTH_SHORT).show();
     }
 
     public void checkIfUserExists() {
@@ -83,12 +89,15 @@ public class LoginActivity extends AppCompatActivity {
                 if (dataSnapshot.exists()) {
                     Intent intent = new Intent(LoginActivity.this, NavigationDrawerActivity.class);
                     startActivity(intent);
+                    Log.d("Eksisterer", "Exists");
                     finish();
                 }
 
                 else {
-                    Intent intent = new Intent(LoginActivity.this, CreateUserActivity.class);
+                    createUser();
+                    Intent intent = new Intent(LoginActivity.this, NavigationDrawerActivity.class);
                     startActivity(intent);
+                    Log.d("Eksisterer ikke", "Eksisterer ikke");
                     finish();
                 }
             }

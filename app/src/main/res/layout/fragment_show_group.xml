@@ -7,15 +7,29 @@
     <!-- TODO: Update blank fragment layout -->
     <TextView
         android:id="@+id/displayGroupIDTextView"
-        android:layout_width="312dp"
-        android:layout_height="39dp"
+        android:layout_width="222dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="105dp"
         android:layout_marginEnd="64dp"
         android:layout_marginStart="64dp"
         android:layout_marginTop="68dp"
+        android:gravity="center"
         android:text="@string/show_group_fragment"
+        app:layout_constraintBottom_toTopOf="@+id/displayID"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/displayID"
+        android:layout_width="230dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="248dp"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/displayGroupIDTextView" />
 
 </android.support.constraint.ConstraintLayout>
