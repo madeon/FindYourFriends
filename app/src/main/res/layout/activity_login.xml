@@ -11,8 +11,8 @@
         android:id="@+id/loginButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="46dp"
-        android:layout_marginStart="46dp"
+        android:layout_marginEnd="51dp"
+        android:layout_marginStart="51dp"
         android:onClick="loginButton_click"
         android:text="Login"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -27,10 +27,10 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="51dp"
         android:layout_marginStart="51dp"
-        android:layout_marginTop="19dp"
         android:onClick="createUserButton_click"
         android:text="Create User"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.454"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/loginButton" />
 

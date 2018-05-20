@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.mathias.findyourfriends.Database.DatabaseConnector;
+import com.example.mathias.findyourfriends.Helpers.ToastMaker;
 import com.example.mathias.findyourfriends.R;
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
@@ -31,6 +32,7 @@ public class LoginActivity extends AppCompatActivity {
     private Button createUserButton;
     private Button loginButton;
     private FirebaseAuth firebaseAuth;
+    private ToastMaker toastMaker;
     private DatabaseConnector database;
     private final static int LOGIN_PERMISSION = 1000;
 
@@ -41,6 +43,7 @@ public class LoginActivity extends AppCompatActivity {
         createUserButton = (Button)findViewById(R.id.createUserButton);
         loginButton = (Button)findViewById(R.id.loginButton);
         firebaseAuth = FirebaseAuth.getInstance();
+        toastMaker = new ToastMaker();
         requestGpsPermission();
     }
 
@@ -65,8 +68,19 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void loginButton_click(View view) {
-        Intent intent = new Intent(this, NavigationDrawerActivity.class);
-        startActivity(intent);
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        if (user != null) {
+            Intent intent = new Intent(this, NavigationDrawerActivity.class);
+            startActivity(intent);
+        }
+
+        else {
+            toastMaker.createToast(this, "You need to create a user.");
+
+        }
+
     }
 
     @Override
