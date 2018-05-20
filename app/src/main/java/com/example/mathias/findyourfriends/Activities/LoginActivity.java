@@ -1,6 +1,13 @@
 package com.example.mathias.findyourfriends.Activities;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.LocationManager;
+import android.os.Build;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -35,7 +42,20 @@ public class LoginActivity extends AppCompatActivity {
         createUserButton = (Button)findViewById(R.id.createUserButton);
         loginButton = (Button)findViewById(R.id.loginButton);
         firebaseAuth = FirebaseAuth.getInstance();
+        requestGpsPermission();
+    }
 
+    private void requestGpsPermission() {
+
+        if (Build.VERSION.SDK_INT >= 23 &&
+                ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION,
+                    Manifest.permission.ACCESS_FINE_LOCATION}, 1001);
+
+            return;
+        }
     }
 
     public void createUserButton_click(View view) {
