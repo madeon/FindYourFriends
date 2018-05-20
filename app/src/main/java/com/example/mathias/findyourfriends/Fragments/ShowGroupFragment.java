@@ -82,7 +82,7 @@ public class ShowGroupFragment extends Fragment {
 
                 if (groupID!= null) {
                     showGroupID();
-                    getGroupName();
+                    showGroupName();
                 }
             }
 
@@ -94,7 +94,7 @@ public class ShowGroupFragment extends Fragment {
     }
 
 
-    private void getGroupName() {
+    private void showGroupName() {
 
         FirebaseDatabase.getInstance().getReference().child("Groups")
                 .addValueEventListener(new ValueEventListener() {
