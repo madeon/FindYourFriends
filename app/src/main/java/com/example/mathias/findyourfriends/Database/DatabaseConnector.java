@@ -34,16 +34,11 @@ public class DatabaseConnector {
 
 
     public void createUser(String email, String name) {
-        //String id = ref.push().getKey();
-
         FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseUser firebaseUser = auth.getCurrentUser();
         String uid = firebaseUser.getUid();
 
-
-
         User user = new User(uid, email, name, 0, 0, "");
-
         ref.child(uid).setValue(user);
     }
 
@@ -67,8 +62,6 @@ public class DatabaseConnector {
 
             }
         });
-
-        //joinGroup(ref.child("id").toString());
     }
 
     public void joinGroup(String id) {

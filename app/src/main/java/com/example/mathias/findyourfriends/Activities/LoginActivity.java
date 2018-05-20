@@ -89,7 +89,6 @@ public class LoginActivity extends AppCompatActivity {
                 if (dataSnapshot.exists()) {
                     Intent intent = new Intent(LoginActivity.this, NavigationDrawerActivity.class);
                     startActivity(intent);
-                    Log.d("Eksisterer", "Exists");
                     finish();
                 }
 
@@ -97,7 +96,6 @@ public class LoginActivity extends AppCompatActivity {
                     createUser();
                     Intent intent = new Intent(LoginActivity.this, NavigationDrawerActivity.class);
                     startActivity(intent);
-                    Log.d("Eksisterer ikke", "Eksisterer ikke");
                     finish();
                 }
             }

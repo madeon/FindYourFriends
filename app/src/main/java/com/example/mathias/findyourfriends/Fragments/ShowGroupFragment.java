@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -49,13 +50,18 @@ public class ShowGroupFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_show_group, container, false);
     }
 
+
     private void showGroupID() {
             textView.setText("You need to create a group to get a unique ID to share with your friends.");
 
-            if(groupID != null && groupID.length() > 0) {
+            if(groupID != null && groupID.length() == 6) {
                 textView.setText("This is your unique ID. Share it with a friend to let them join your group!");
                 textViewID.setText("" + groupID);
                 textViewID.setTextSize(60);
+            }
+
+            else if(groupID != null && groupID.length() > 6) {
+                textViewID.setText("Your ID is being generated.. please update the page or return in a minute");
             }
     }
 
