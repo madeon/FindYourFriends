@@ -25,7 +25,7 @@ public class LoginActivity extends AppCompatActivity {
     private Button createUserButton;
     private Button loginButton;
     private FirebaseAuth firebaseAuth;
-    DatabaseConnector database;
+    private DatabaseConnector database;
     private final static int LOGIN_PERMISSION = 1000;
 
     @Override
@@ -78,7 +78,6 @@ public class LoginActivity extends AppCompatActivity {
     public void checkIfUserExists() {
         database = new DatabaseConnector("Users");
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        String name = user.getDisplayName();
         String email = user.getEmail();
 
         Query query = database.getRef().orderByChild("email").equalTo(email);
