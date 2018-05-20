@@ -27,8 +27,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 public class LoginActivity extends AppCompatActivity {
-    private EditText editTextUsername;
-    private EditText editTextPassword;
+
     private Button createUserButton;
     private Button loginButton;
     private FirebaseAuth firebaseAuth;
