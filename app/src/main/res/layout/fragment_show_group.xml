@@ -2,34 +2,35 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:layout_editor_absoluteY="81dp">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
         android:id="@+id/displayGroupIDTextView"
         android:layout_width="222dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="105dp"
-        android:layout_marginEnd="64dp"
-        android:layout_marginStart="64dp"
-        android:layout_marginTop="68dp"
+        android:layout_height="72dp"
         android:gravity="center"
         android:text="@string/show_group_fragment"
-        app:layout_constraintBottom_toTopOf="@+id/displayID"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        tools:layout_editor_absoluteX="81dp"
+        tools:layout_editor_absoluteY="68dp" />
 
     <TextView
         android:id="@+id/displayID"
         android:layout_width="230dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="248dp"
+        android:layout_height="72dp"
         android:gravity="center"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/displayGroupIDTextView" />
+        android:textSize="60sp"
+        tools:layout_editor_absoluteX="77dp"
+        tools:layout_editor_absoluteY="140dp" />
+
+    <TextView
+        android:id="@+id/groupNameTextView"
+        android:layout_width="348dp"
+        android:layout_height="194dp"
+        android:gravity="center"
+        android:textSize="25sp"
+        tools:layout_editor_absoluteX="18dp"
+        tools:layout_editor_absoluteY="300dp" />
 
 </android.support.constraint.ConstraintLayout>

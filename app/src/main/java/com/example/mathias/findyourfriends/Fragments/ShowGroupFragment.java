@@ -15,12 +15,15 @@ import android.widget.TextView;
 import com.example.mathias.findyourfriends.Activities.LoginActivity;
 import com.example.mathias.findyourfriends.Activities.NavigationDrawerActivity;
 import com.example.mathias.findyourfriends.Database.DatabaseConnector;
+import com.example.mathias.findyourfriends.Helpers.Group;
 import com.example.mathias.findyourfriends.Helpers.User;
 import com.example.mathias.findyourfriends.R;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 /**
@@ -30,8 +33,8 @@ import com.google.firebase.database.ValueEventListener;
 public class ShowGroupFragment extends Fragment {
 
     private DatabaseConnector databaseConnector;
-    private String groupID;
-    private TextView textView, textViewID;
+    private String groupID, groupName;
+    private TextView textView, textViewID, textViewGroup;
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -39,6 +42,7 @@ public class ShowGroupFragment extends Fragment {
         databaseConnector = new DatabaseConnector("Users");
         textView = (TextView) view.findViewById(R.id.displayGroupIDTextView);
         textViewID = (TextView) view.findViewById(R.id.displayID);
+        textViewGroup = (TextView) view.findViewById(R.id.groupNameTextView);
         getGroupID();
         showGroupID();
         super.onViewCreated(view, savedInstanceState);
@@ -57,14 +61,14 @@ public class ShowGroupFragment extends Fragment {
             if(groupID != null && groupID.length() == 6) {
                 textView.setText("This is your unique ID. Share it with a friend to let them join your group!");
                 textViewID.setText("" + groupID);
-                textViewID.setTextSize(60);
             }
 
             else if(groupID != null && groupID.length() > 6) {
                 textViewID.setText("Your ID is being generated.. please update the page or return in a minute");
             }
     }
-
+    
+    
     private void getGroupID() {
         FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseUser firebaseUser = auth.getCurrentUser();
@@ -78,6 +82,7 @@ public class ShowGroupFragment extends Fragment {
 
                 if (groupID!= null) {
                     showGroupID();
+                    getGroupName();
                 }
             }
 
@@ -86,5 +91,32 @@ public class ShowGroupFragment extends Fragment {
 
             }
         });
+    }
+
+
+    private void getGroupName() {
+
+        FirebaseDatabase.getInstance().getReference().child("Groups")
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+
+                            Group group = snapshot.getValue(Group.class);
+
+                            if(group.getID().equals(groupID)) {
+                                groupName = group.getGroupName();
+                                textViewGroup.setText("Group name: \n" + groupName);
+                            }
+
+
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                    }
+                });
     }
 }
