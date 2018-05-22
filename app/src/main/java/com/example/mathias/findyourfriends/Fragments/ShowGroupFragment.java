@@ -60,10 +60,12 @@ public class ShowGroupFragment extends Fragment {
 
             if(groupID != null && groupID.length() == 6) {
                 textView.setText("This is your unique ID. Share it with a friend to let them join your group!");
+                textViewID.setTextSize(60);
                 textViewID.setText("" + groupID);
             }
 
             else if(groupID != null && groupID.length() > 6) {
+                textViewID.setTextSize(11);
                 textViewID.setText("Your ID is being generated.. please update the page or return in a minute");
             }
     }
@@ -109,8 +111,6 @@ public class ShowGroupFragment extends Fragment {
                                 groupName = group.getGroupName();
                                 textViewGroup.setText("Group name: \n" + groupName);
                             }
-
-
                         }
                     }
 
